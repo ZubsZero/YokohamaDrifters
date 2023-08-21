@@ -32,7 +32,7 @@
 <div class="sale">
     <div class="sales-card">
         <div class="sales-info">
-            <h4>Nissan GTR skyline</h4>
+            <h4>Nissan GTR Skyline R35</h4>
         </div>
         <div class="price">
             <h4>R1 749 970</h4>
@@ -43,21 +43,21 @@
     </div>
     <div class="sales-card-2">
         <div class="sales-info">
-            <h4>Nissan GTR skyline</h4>
+            <h4>Honda NSX Type S</h4>
         </div>
         <div class="price">
-            <h4>R1 749 970</h4>
+            <h4>R3 249 000</h4>
         </div>
         <div class="view">
            <router-link to="#"><button type="button" class="view-more">View More</button></router-link> 
         </div>
     </div>
-    <div class="sales-card-2">
+    <div class="sales-card-3">
         <div class="sales-info">
-            <h4>Nissan GTR skyline</h4>
+            <h4>Toyota Supra Carros</h4>
         </div>
         <div class="price">
-            <h4>R1 749 970</h4>
+            <h4>R1 479 240</h4>
         </div>
         <div class="view">
            <router-link to="#"><button type="button" class="view-more">View More</button></router-link> 
@@ -135,7 +135,7 @@
 }
 
 .sales-card-2 {
-    background-image: url('https://i.postimg.cc/qRMwHy3V/1451275-2.jpg');
+    background-image: url('https://i.postimg.cc/cHTBTmXt/peakpx-4.jpg');
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -145,7 +145,7 @@
 }
 
 .sales-card-3 {
-    background-image: url('https://i.postimg.cc/qRMwHy3V/1451275-2.jpg');
+    background-image: url('https://i.postimg.cc/bNBrkBfS/peakpx-6.jpg');
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
