@@ -6,10 +6,10 @@
             </div>
             <ul class="NavBar">
                 <router-link to="/" class="list-item">Home</router-link>
-                <router-link to="/" class="list-item">About</router-link>
+                <router-link to="/about" class="list-item">About</router-link>
                 <router-link to="/" class="list-item">Products</router-link>
                 <router-link to="/" class="list-item">Admin</router-link>
-                <router-link to="/" class="list-item">Contact</router-link>
+                <router-link to="/contact" class="list-item">Contact</router-link>
 
 
 

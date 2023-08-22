@@ -64,6 +64,11 @@
         </div>
     </div>
 </div>
+
+<div class="browse">
+    <h2 class="browse-more">Browse More</h2>
+    <p class="text">Click On Products to View All</p>
+</div>
 </template>
 <script>
 
@@ -120,6 +125,7 @@
 }
 
 /* sales cards */
+/* no spaces between the cards are intentional */
 .sale {
     margin-top: 3rem;
     display: flex;
@@ -180,9 +186,18 @@ border-radius: 0.6rem;
     transition: 0.5s;
     background-color: black ;
     color: white;
-    box-shadow: 0 0 40px;
+    box-shadow: 0 0 15px;
 }
 
+.browse-more {
+    margin: 2rem;
+    font-family: 'Julius Sans One', sans-serif;
+    color: rgb(0, 0, 0);
+}
 
+.text {
+    font-family: 'Julius Sans One', sans-serif;
+    color: rgb(0, 0, 0);
+}
 
 </style>

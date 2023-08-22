@@ -1,4 +1,5 @@
 <template>
+  <NavBar/>
   <Hero/>
   <Body/>
 </template>
@@ -7,11 +8,13 @@
 // @ is an alias to /src
 import Hero from '@/components/hero-comp.vue'
 import Body from '@/components/body-comp.vue'
+import NavBar from '@/components/NavBar-comp.vue'
+
 
 export default {
   name: 'HomeView',
   components: {
-   Hero,Body
+   Hero,Body,NavBar
   }
 }
 </script>

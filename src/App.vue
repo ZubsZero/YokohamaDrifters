@@ -1,12 +1,13 @@
 <template>
-  <NavBar/>
   <router-view/>
+  <FooterComp/>
 </template>
 <script>
 import NavBar from '@/components/NavBar-comp.vue'
+import FooterComp from '@/components/Footer-comp.vue'
 export default {
   name: 'Home',
-  components: {NavBar}
+  components: { FooterComp}
 }
 </script>
 <style>
@@ -23,5 +24,6 @@ export default {
   margin: 0;
   padding: 0;
 }
+
 
 </style>
