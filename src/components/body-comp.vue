@@ -200,4 +200,71 @@ border-radius: 0.6rem;
     color: rgb(0, 0, 0);
 }
 
+@media only screen and (max-width:400px){
+    .cards {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+}
+
+.sale {
+    display: flex;
+    flex-direction: column;
+}
+
+.sales-card {
+    background-image: url('https://i.postimg.cc/qRMwHy3V/1451275-2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 20rem;
+    margin-top: 3rem;
+}
+
+.sales-card-2 {
+    background-image: url('https://i.postimg.cc/cHTBTmXt/peakpx-4.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 20rem;
+    margin-top: 3rem;
+}
+
+.sales-card-3 {
+    background-image: url('https://i.postimg.cc/bNBrkBfS/peakpx-6.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 20rem;
+    margin-top: 3rem;
+}
+.view-more {
+border: none;
+width: 5rem;
+height: 3rem;
+margin-top: 14rem;
+margin-left: 17rem;
+border-radius: 0.6rem;
+}
+.sales-info {
+    color: white;
+    position: relative;
+    top: 85%;
+    right: 20%;
+}
+
+.price {
+    color: white;
+    position: relative;
+    top: 87%;
+    right: 29%;
+}
+
+
+}
+
 </style>

@@ -54,5 +54,23 @@ h1 {
     color: rgb(255, 0, 0);
     font-weight: 700;
 }
+@media only screen and (max-width:400px){
+    h1 {
+    color: white;
+    font-size: 1.9rem;
+    border-left: 3px solid black;
+    font-family: 'Monoton', cursive;
 
+}
+.hero-info {
+    position: relative;
+    top: 35%;
+    right: 0%;
+}
+
+.hero {
+    height: 30rem;
+    background-position-x: -10rem;
+}
+}
 </style>

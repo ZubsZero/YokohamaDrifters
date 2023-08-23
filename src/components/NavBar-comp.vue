@@ -1,4 +1,5 @@
 <template>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <div class="nav">
         <nav>
             <div class="logo">
@@ -14,12 +15,9 @@
 
 
 
-            </ul>
-            <div class="buttons">
-                <router-link to="#" class="login"> <button type="button" class="btn-login">Login</button></router-link>
-                <router-link to="#" class="signup"><button type="button" class="btn-signup">Sign Up</button></router-link>
 
-            </div>
+            </ul>
+         
         </nav>
     </div>
 </template>
@@ -56,58 +54,6 @@ height: 4rem;
     margin-top: 1.4rem ;
 }
 
-.buttons {
-    margin-left: 17rem;;
-    margin-top: 0.9rem;
-}
-
-.btn-signup{
-    margin-left: 1rem;
-    background-color: white;
-    width: 5rem;
-    height: 2.5rem;
-    border: none;
-    border-radius: 0.9rem;
-
-}
-
-.btn-login{
-    background-color: white;
-    width: 5rem;
-    height: 2.5rem;
-    border: none;
-    border-radius: 0.9rem;
-}
-
-.btn-login:hover{
-transition: 0.5s;
-box-shadow: 0 0 12px 3px white;
-background-color: black ;
-color: white;
-
-}
-
-.btn-signup:hover{
-transition: 0.3s;
-box-shadow: 0 0 12px 3px white;
-background-color: black ;
-color: white;
-
-}
-
-
-
-.login {
-    text-decoration: none;
-    color: black;
-    
-}
-
-.signup {
-    text-decoration: none;
-    color: black;
-}
-
 .list-item:after{
     content: "";
     position: absolute;
@@ -125,6 +71,33 @@ color: white;
     width: 100%;
 }
 
+@media only screen and (max-width:400px) {
+    html,body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow-x:hidden;
+    }
+    .NavBar {
+        display: flex;
+        margin-left: 1rem;
+    }
+    .list-item {
+        margin-left: 0.6rem;
+    }
+    .list-item:after{
+    content: "";
+    position: absolute;
+    background-color: #ce0505;
+    height: 4px;
+    width: 0;
+    left: 0px;
+    bottom: 14px;
+    transition: 0.3s;
+}
+
+}
 
 
 </style>
