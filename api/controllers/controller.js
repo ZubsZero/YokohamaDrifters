@@ -24,14 +24,6 @@ routes.post("/products", bodyParser.json(), (req, res) => {
 routes.post("/users", bodyParser.json(), (req, res) => {
   users.register(req, res);
 });
-//Put
-routes.put("/products/:id", bodyParser.json(), (req, res) => {
-  products.updateProduct(req, res);
-});
-//User put
-routes.put("/users/:id", bodyParser.json(), (req, res) => {
-  users.updateUser(req, res);
-});
 //Patch
 routes.patch("/products/:id", bodyParser.json(), (req, res) => {
   products.updateProduct(req, res);
