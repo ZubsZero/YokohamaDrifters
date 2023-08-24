@@ -221,11 +221,12 @@ border-radius: 0.6rem;
     width: auto;
     height: 20rem;
     margin-top: 3rem;
+    background-position-x: -2.4rem;
 }
 
 .sales-card-2 {
     background-image: url('https://i.postimg.cc/cHTBTmXt/peakpx-4.jpg');
-    background-position: center center;
+    background-position: center ;
     background-size: cover;
     background-repeat: no-repeat;
     width: auto;
