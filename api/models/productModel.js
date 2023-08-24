@@ -1,7 +1,8 @@
 const db = require("../config");
+
 class Products {
   fetchProducts(req, res) {
-    const query = ` SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products;`;
+    const query = `SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products;`
     db.query(query, (err, results) => {
       if (err) throw err;
       res.json({
@@ -11,40 +12,45 @@ class Products {
     });
   }
   fetchProduct(req, res) {
-    const query = `
-        SELECT prodID, prodName, quantity, amount, Category, prodUrl 
-        FROM Products
-        WHERE prodID = ${req.params.id};
-        `;
-    db.query(query, (err, results) => {
+    const query = `SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products WHERE prodID = ${req.params.id};`
+    db.query(query, (err, result) => {
       if (err) throw err;
       res.json({
         status: res.statusCode,
-        results,
-      });
-    });
-  }
-  deleteProduct(req, res) {
-    const query = `DELETE FROM Products WHERE prodID = ${req.params.id};
-        `;
-    db.query(query, (err) => {
-      if (err) throw err;
-      res.json({
-        status: res.statusCode,
-        msg: "Product Removed",
+        result,
       });
     });
   }
   addProduct(req, res) {
     const query = `INSERT INTO Products SET ?;`;
-    db.query(query, [req.body], (err) => {
+    db.query(query, req.body, (err) => {
       if (err) throw err;
       res.json({
         status: res.statusCode,
-        msg: "Product has been added",
+        message: "A new product has been added!",
+      });
+    });
+  }
+
+  updateProduct(req, res) {
+    const query = `UPDATE Products SET ? WHERE prodID = ?;`;
+    db.query(query, [req.body, req.params.id], (err) => {
+      if (err) throw err;
+      res.json({
+        status: res.statusCode,
+        message: "Product updated!",
+      });
+    });
+  }
+  deleteProduct(req, res) {
+    const query = `DELETE FROM Products WHERE prodID = ${req.params.id};`;
+    db.query(query, (err) => {
+      if (err) throw err;
+      res.json({
+        status: res.statusCode,
+        message: "Product removed!",
       });
     });
   }
 }
-
 module.exports = Products;

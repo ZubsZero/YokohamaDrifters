@@ -74,7 +74,7 @@ class Users {
                             res.json({
                                 status: res.statusCode,
                                 msg:
-                                    "Invalid Pwdword or you have not registered"
+                                    "Invalid Password or you have not registered"
                             })
                         }
                     })
@@ -86,7 +86,7 @@ class Users {
         if (!data.userPass) {
             return res.json({
                 status: res.statusCode,
-                msg: "Pwdword is required"
+                msg: "Password is required"
             })
         }
         // Encrypt Pwdword

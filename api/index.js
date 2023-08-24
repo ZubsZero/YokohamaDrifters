@@ -25,7 +25,7 @@ app.use(
   routes
 );
 
-routes.get("^/$|/node_js eomp", (req, res) => {
+routes.get("^/$|/NodeEOMP_Backend", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./static/html/index.html"));
 });
 
