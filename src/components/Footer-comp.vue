@@ -30,10 +30,10 @@
       </div>
       <div class="links">
         <h4>Quick links</h4>
-        <p><router-link to="#" class="list-item">Home</router-link></p>
-        <p><router-link to="#" class="list-item">About</router-link></p>
-        <p><router-link to="#" class="list-item">Products</router-link></p>
-        <p><router-link to="#" class="list-item">Contact</router-link></p>
+        <p><router-link to="/" class="list-item">Home</router-link></p>
+        <p><router-link to="/about" class="list-item">About</router-link></p>
+        <p><router-link to="/products" class="list-item">Products</router-link></p>
+        <p><router-link to="/contact" class="list-item">Contact</router-link></p>
       </div>
       <div class="details">
         <h4 class="mobile">Mobile</h4>

@@ -8,8 +8,8 @@
             <ul class="NavBar">
                 <router-link to="/" class="list-item">Home</router-link>
                 <router-link to="/about" class="list-item">About</router-link>
-                <router-link to="/" class="list-item">Products</router-link>
-                <router-link to="/" class="list-item">Admin</router-link>
+                <router-link to="/products" class="list-item">Products</router-link>
+                <router-link to="/admin" class="list-item">Admin</router-link>
                 <router-link to="/contact" class="list-item">Contact</router-link>
 
 
@@ -28,6 +28,8 @@ export default {
 }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Monoton&display=swap');
+
 
 .list-item {
     color: rgb(255, 255, 255);
@@ -35,6 +37,8 @@ export default {
     margin-left: 9rem;
     position: relative;
     font-size: 0.9rem;
+    font-family: 'Julius Sans One', sans-serif;
+
 }
 
 nav {
@@ -85,6 +89,7 @@ height: 4rem;
     }
     .list-item {
         margin-left: 0.6rem;
+        font-size: 0.7rem;
     }
     .list-item:after{
     content: "";
