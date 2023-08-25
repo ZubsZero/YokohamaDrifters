@@ -121,7 +121,6 @@ The people of Yokohama, a vibrant Japanese city, embody a fusion of tradition an
 h1 {
     color: rgb(0, 0, 0);
     font-size: 3rem;
-    border-left: 3px solid black;
     font-family: 'Monoton', cursive;
 
 }
@@ -302,7 +301,6 @@ h1 {
     h1 {
     color: white;
     font-size: 1.9rem;
-    border-left: 3px solid black;
     font-family: 'Monoton', cursive;
 
 }

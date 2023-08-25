@@ -1,337 +1,428 @@
 <template>
-    <div class="hero">
-        <div class="hero-info">
-            <h1 class="heading"><span class="yokohama">Yokohama</span>Drifters</h1>
-         <div class="sub-heading">
-            <p class="sub-text">
-                View All Products
-            </p>
-        </div>
+  <div class="hero">
+    <div class="hero-info">
+      <h1 class="heading"><span class="yokohama">Yokohama</span>Drifters</h1>
+      <div class="sub-heading">
+        <p class="sub-text">View All Products</p>
+      </div>
     </div>
   </div>
 
   <div class="navigation">
     <div class="sort">
-        <label for="search">Sort by Price</label>
-    <select name="sort" id="sort">
+      <label for="search">Sort by Price</label>
+      <select
+        name="sort"
+        id="sort"
+        v-model="selectedSort"
+        @change="sortProducts"
+      >
         <option value="lowest" id="lowest">Lowest</option>
         <option value="highest" id="highest">Highest</option>
-    </select> 
+      </select>
     </div>
-   <div class="search">
-    <div class="icon">
-        <img src="https://i.postimg.cc/Qd5jtmBR/icons8-search-50-removebg-preview.png" alt="icon" class="icon">
-    </div>
-    <div class="search-bar">
+    <div class="search">
+      <div class="icon">
+        <img
+          src="https://i.postimg.cc/Qd5jtmBR/icons8-search-50-removebg-preview.png"
+          alt="icon"
+          class="icon"
+        />
+      </div>
+      <div class="search-bar">
         <label for="search">Search</label>
-        <input type="text" class="type-s" placeholder="Name of item">
-        <button type="button" class="btn"><img src="https://i.postimg.cc/Qd5jtmBR/icons8-search-50-removebg-preview.png" alt="search-img" class="search-img"></button>
+        <input
+          type="text"
+          class="type-s"
+          placeholder="Name of item"
+          v-model="searchInput"
+        />
+        <button type="submit" class="btn" @click="filterProducts()">
+          <img
+            src="https://i.postimg.cc/Qd5jtmBR/icons8-search-50-removebg-preview.png"
+            alt="search-img"
+            class="search-img"
+          />
+        </button>
+      </div>
     </div>
-   </div>
-   </div>
+  </div>
 
-   <div class="products-body">
-    <div class="product-cards">
-        <div class="card" v-for="product in products" :key="product.prodID">
-            <div class="card-img">
-                <img :src="product.prodUrl" :alt="product.prodName" class="example-img">
-            </div>
-            <div class="card-info">
-                <div class="name">
-                    <h4>{{ product.prodName }}</h4>
-                </div>
-                <div class="price">
-                    <h5>R {{ product.amount }}</h5>
-                </div>
-                <div class="cart">
-                    <button type="button" class="cart-btn">Add to Cart</button>
-                    <button type="button" class="view-btn">View More</button>
-
-                </div>
-            </div>
+  <div class="products-body">
+    <div class="product-cards" v-if="products.length > 0">
+      <div
+        class="card"
+        v-for="product in products"
+        :key="product.prodID"
+        :product="product"
+      >
+        <div class="card-img">
+          <img
+            :src="product.prodUrl"
+            :alt="product.prodName"
+            class="example-img"
+          />
         </div>
+        <div class="card-info">
+          <div class="name">
+            <h4>{{ product.prodName }}</h4>
+          </div>
+          <div class="price">
+            <h5>R {{ product.amount }}</h5>
+          </div>
+          <div class="cart">
+            <button type="button" class="cart-btn">Add to Cart</button>
+           <button class="view-btn">
+            <router-link class="single"
+              :to="{
+                name: 'single-product',
+                params: { id: product.prodID },
+              }">
+                View More
+                </router-link
+            >
+           </button> 
+          </div>
+        </div>
+      </div>
     </div>
-   </div>
+    <div v-else>
+      <spinner />
+    </div>
+  </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
+import spinner from "@/components/spinner-comp.vue";
 export default {
+  components: { spinner },
   data() {
     return {
-      products: []
+      products: [],
+      selectedSort: "lowest",
+      searchInput: "",
     };
   },
   methods: {
     async fetchProducts() {
       try {
-        const response = await axios.get("https://yokohamaapi.onrender.com/products");
+        const response = await axios.get(
+          "https://yokohamaapi.onrender.com/products"
+        );
         this.products = response.data.results;
       } catch (error) {
         console.error("Error fetching products:", error);
       }
-    }
+    },
+    sortProducts() {
+      if (this.selectedSort === "lowest") {
+        this.products.sort((a, b) => a.amount - b.amount);
+      } else if (this.selectedSort === "highest") {
+        this.products.sort((a, b) => b.amount - a.amount);
+      }
+    },
+    filterProducts() {
+      const searchQuery = this.searchInput.toLowerCase();
+      this.products = this.sortedProducts.filter(
+        (product) =>
+          product.prodName.toLowerCase().includes(searchQuery) ||
+          product.Category.toLowerCase().includes(searchQuery)
+      );
+    },
+    viewSingle(prodID) {
+      const singleProduct = this.products.find(
+        (product) => product.prodID === prodID
+      );
+      this.$store.commit("setSingleProduct", singleProduct);
+      this.$router.push({ name: "single-product", params: { prodID: prodID } });
+    },
+  },
+  computed: {
+    sortedProducts() {
+      if (this.selectedSort === "lowest") {
+        return this.products.slice().sort((a, b) => a.amount - b.amount);
+      } else if (this.selectedSort === "highest") {
+        return this.products.slice().sort((a, b) => b.amount - a.amount);
+      } else {
+        return this.products;
+      }
+    },
+    filteredProducts() {
+      if (this.searchInput) {
+        return this.filterProducts();
+      } else {
+        return this.sortedProducts;
+      }
+    },
   },
   mounted() {
     this.fetchProducts();
-  }
+  },
 };
 </script>
+
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Monoton&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Monoton&display=swap");
+
+.route {
+  text-decoration: none;
+  color: black;
+}
+
+.route:hover {
+  transition: 0.5s;
+  color: white;
+}
 .product-cards {
-    display: grid;
-    grid-template-columns:1fr 1fr 1fr ;
-    justify-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
 }
 .card {
-    width: 17rem;
-    height: 19rem;
-    background-color: black ;
-    margin: 2rem;
-    border-radius: 1rem;
+  width: 17rem;
+  height: 19rem;
+  background-color: black;
+  margin: 2rem;
+  border-radius: 1rem;
+}
 
+.single {
+    text-decoration: none;
+    color: black;
+}
+
+.single:hover {
+    text-decoration: none;
+    color: rgb(245, 245, 245);
 }
 
 .example-img {
-    width: 17rem;
-    height: 11rem;
-    border-top-right-radius: 1rem;
-    border-top-left-radius: 1rem;
-
+  width: 17rem;
+  height: 11rem;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
 }
 
 .card-info {
-    color: white;
-    font-size: 1.1rem;
-    font-family: 'Julius Sans One', sans-serif;
-
+  color: white;
+  font-size: 1.1rem;
+  font-family: "Julius Sans One", sans-serif;
 }
 
-.name , .price{
-    margin-bottom: 1rem;
+.name,
+.price {
+  margin-bottom: 1rem;
 }
 
-
-
+.router {
+  color: rgb(0, 0, 0);
+  font-size: 0.9rem;
+}
 .cart-btn {
-    background-color:rgb(255, 255, 255);
-    color:rgb(0, 0, 0);
-    width: 6rem;
-    height: 2rem;
-    border:none;
-    border-radius: 0.4rem;
-    font-family: 'Julius Sans One', sans-serif;
-
-
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  width: 6rem;
+  height: 2rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-family: "Julius Sans One", sans-serif;
 }
 
 .view-btn {
-    background-color:rgb(255, 255, 255);
-    color:rgb(0, 0, 0);
-    width: 6rem;
-    height: 2rem;
-    margin-left: 1rem;
-    border:none;
-    border-radius: 0.4rem;
-    font-family: 'Julius Sans One', sans-serif;
-
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  width: 6rem;
+  text-align: center;
+  height: 2rem;
+  margin-left: 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-family: "Julius Sans One", sans-serif;
 }
 
 .cart-btn:hover {
-transition: 0.5s;
-background-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
-box-shadow: 0 0 10px white
+  transition: 0.5s;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px white;
 }
 .view-btn:hover {
-transition: 0.5s;
-background-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
-box-shadow: 0 0 10px white;
+  transition: 0.5s;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 10px white;
 }
-.cart{
-    margin: 1rem;
+.cart {
+  margin: 1rem;
 }
 
 .hero {
-    background-color: black;
-    width: 100%;
-    height: 30rem;
-    border-bottom: 3px solid white;
-
+  background-color: black;
+  width: 100%;
+  height: 30rem;
+  border-bottom: 3px solid white;
 }
 
-.hero-info{
-    position: relative;
-    top: 40%;
+.hero-info {
+  position: relative;
+  top: 40%;
 }
 
 h1 {
-    color: white;
-    font-size: 3rem;
-    border-left: 3px solid black;
-    font-family: 'Monoton', cursive;
-
+  color: white;
+  font-size: 3rem;
+  border-left: 3px solid black;
+  font-family: "Monoton", cursive;
 }
 
 .yokohama {
-    color: rgba(179, 16, 16, 0.9);
+  color: rgba(179, 16, 16, 0.9);
 }
 
 .sub-text {
-    color: rgb(255, 255, 255);
-    font-size: 1.3rem;
-    font-family: 'Julius Sans One', sans-serif;
-
+  color: rgb(255, 255, 255);
+  font-size: 1.3rem;
+  font-family: "Julius Sans One", sans-serif;
 }
 
 .red {
-    color: rgb(255, 0, 0);
-    font-weight: 700;
+  color: rgb(255, 0, 0);
+  font-weight: 700;
 }
 
 .navigation {
-    display: flex;
-    gap: 20rem;
-    align-items: center;
-    justify-content: center;
-    height: 3rem;
+  display: flex;
+  gap: 20rem;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
 }
 
-.sort{
-    font-family: 'Julius Sans One', sans-serif;
-    font-weight: bold;
+.sort {
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: bold;
 }
 .search {
-    display: flex;
-    font-family: 'Julius Sans One', sans-serif;
-    font-weight: bold;
-    margin-bottom: 1rem;
+  display: flex;
+  font-family: "Julius Sans One", sans-serif;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 option {
-    font-family: 'Julius Sans One', sans-serif;
-
+  font-family: "Julius Sans One", sans-serif;
 }
 
 select {
-    font-family: 'Julius Sans One', sans-serif;
-    margin-left: 1rem;
-    height: 2rem;
-
+  font-family: "Julius Sans One", sans-serif;
+  margin-left: 1rem;
+  height: 2rem;
 }
 
 input {
-    height: 1.5rem;
-    border:none;
-    width: 15rem;
-    border-bottom: 2px solid black;
-    margin-left: 1rem;
+  height: 1.5rem;
+  border: none;
+  width: 15rem;
+  border-bottom: 2px solid black;
+  margin-left: 1rem;
 }
 .icon {
-    width: 1.4rem;
-    margin-top: 0.5rem;
+  width: 1.4rem;
+  margin-top: 0.5rem;
 }
 
-.search-img{
-    width:2rem;
-    height: 2rem;
+.search-img {
+  width: 2rem;
+  height: 2rem;
 }
 
 .btn {
-    width:3rem;
-    height: 2.5rem;
-    position: relative;
-    top: 22%;
-    background-color: rgb(255, 255, 255);
-    border:none;
-    cursor: pointer;
+  width: 3rem;
+  height: 2.5rem;
+  position: relative;
+  top: 22%;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  cursor: pointer;
 }
 
 .btn:hover {
-border-left: 2px solid black;
-border-right: 2px solid black;
-border-top: 2px solid black;
-border-bottom: 2px solid black;
-
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
 }
 
-
-@media only screen and (max-width:400px){
-    h1 {
+@media only screen and (max-width: 400px) {
+  h1 {
     color: white;
     font-size: 1.9rem;
     border-left: 3px solid black;
-    font-family: 'Monoton', cursive;
-
-}
-.hero-info {
+    font-family: "Monoton", cursive;
+  }
+  .hero-info {
     position: relative;
     top: 35%;
     right: 0%;
-}
+  }
 
-.hero {
+  .hero {
     height: 30rem;
     background-position-x: -10rem;
-}
+  }
 
-.navigation {
+  .navigation {
     display: flex;
     gap: 1rem;
     align-items: center;
     justify-content: center;
     height: 3rem;
-}
+  }
 
-.sort{
-    font-family: 'Julius Sans One', sans-serif;
+  .sort {
+    font-family: "Julius Sans One", sans-serif;
     font-weight: bold;
-}
-.search {
+  }
+  .search {
     display: flex;
-    font-family: 'Julius Sans One', sans-serif;
+    font-family: "Julius Sans One", sans-serif;
     font-weight: bold;
+  }
 
-
-}
-
-.btn {
+  .btn {
     width: 1rem;
     height: 1rem;
     background: transparent;
-}
+  }
 
-option {
-    font-family: 'Julius Sans One', sans-serif;
-
-}
-label {
-    font-size: 0.8rem
-}
-select {
-    font-family: 'Julius Sans One', sans-serif;
+  option {
+    font-family: "Julius Sans One", sans-serif;
+  }
+  label {
+    font-size: 0.8rem;
+  }
+  select {
+    font-family: "Julius Sans One", sans-serif;
     margin-left: 1rem;
     height: 2rem;
     width: 4rem;
+  }
 
-}
-
-input {
+  input {
     height: 1.5rem;
-    border:none;
+    border: none;
     width: 5rem;
     border-bottom: 2px solid black;
     margin-left: 1rem;
     background: transparent;
-}
-.icon {
+  }
+  .icon {
     width: 1.4rem;
-}
+  }
 
-.product-cards {
+  .product-cards {
     display: grid;
     grid-template-columns: 1fr;
-}
+  }
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
     <NavBar/>
-    <admintable/>
+    <tables/>
 </template>
 <script>
 import NavBar from '@/components/NavBar-comp.vue'
-import admintable from '@/components/Admin-comp.vue'
+import tables from '@/components/Admin-comp.vue'
 
 export default {
     name: "Admin",
-    components: {NavBar, admintable}
+    components: {NavBar, tables}
 
 }
 </script>

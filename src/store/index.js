@@ -1,6 +1,6 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
-const YDUrl = "https://yokohamaapi.onrender.com/"
+const YDUrl = "https://yokohamaapi.onrender.com/";
 export default createStore({
   state: {
     users: null,
@@ -10,8 +10,7 @@ export default createStore({
     showSpinner: true,
     message: null,
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
     setMessage: (state, message) => {
       state.message = message;
@@ -49,7 +48,7 @@ export default createStore({
     },
     async getUser(context, id) {
       try {
-        const res = await fetch(`${YDurl}users/${id}`);
+        const res = await fetch(`${YDUrl}users/${id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch user by ID");
         }
@@ -65,7 +64,7 @@ export default createStore({
     },
     getProducts: async (context) => {
       try {
-        const res = await fetch(`${YDurl}products`);
+        const res = await fetch(`${YDUrl}products`);
         if (!res.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -79,12 +78,15 @@ export default createStore({
     },
     getProduct: async (context, id) => {
       try {
-        const response = await fetch(`${YDurl}products/${id}`);
+        const response = await fetch(`${YDUrl}product/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
-        const product = await response.json();
-        context.commit("setProduct", product);
+        const {result} = await response.json();
+        context.commit("setProduct", result[0]);
       } catch (error) {
-        console.error(error)
-      }}}})
+        console.error(error);
+      }
+    },
+  },
+});

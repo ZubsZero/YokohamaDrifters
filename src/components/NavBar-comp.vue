@@ -1,5 +1,4 @@
 <template>
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <div class="nav">
         <nav>
             <div class="logo">
@@ -76,6 +75,9 @@ height: 4rem;
 }
 
 @media only screen and (max-width:400px) {
+    nav {
+        width: 100% auto;
+    }
     html,body {
         margin: 0;
         padding: 0;

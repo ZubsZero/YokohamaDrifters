@@ -1,80 +1,233 @@
 <template>
-    <input type="checkbox" id="modal">
-<label for="modal" class="example-label">Open Modal</label>
-<label for="modal" class="modal-background"></label>
-<div class="modal">
-	<div class="modal-header">
-		<h3>Add a Product</h3>
-        <label for="modal">
-        	<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAdVBMVEUAAABNTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU0N3NIOAAAAJnRSTlMAAQIDBAUGBwgRFRYZGiEjQ3l7hYaqtLm8vsDFx87a4uvv8fP1+bbY9ZEAAAB8SURBVBhXXY5LFoJAAMOCIP4VBRXEv5j7H9HFDOizu2TRFljedgCQHeocWHVaAWStXnKyl2oVWI+kd1XLvFV1D7Ng3qrWKYMZ+MdEhk3gbhw59KvlH0eTnf2mgiRwvQ7NW6aqNmncukKhnvo/zzlQ2PR/HgsAJkncH6XwAcr0FUY5BVeFAAAAAElFTkSuQmCC" width="16" height="16" alt="">
-        </label>
-    </div>
-    <p>Content for the modal</p>
-</div>
-</template>
-<script>
+  <div>
+    <!-- Your existing content here -->
 
+    <!-- Button to open the modal -->
+    <button @click="openModal" class="add-button">Add Product</button>
+
+    <!-- Modal -->
+    <div class="modal" :class="{ 'modal-open': isModalOpen }">
+      <div class="modal-content">
+        <span @click="closeModal" class="close-button">×</span>
+        <h2>Add New Product</h2>
+        <form @submit.prevent="addProduct">
+          <div class="name">
+            <label for="productName">Product Name</label><br>
+            <input
+              type="text"
+              id="productName"
+              v-model="newProduct.prodName"
+              required
+            />
+          </div>
+          <div class="product-url">
+            <label for="productUrl">Product URL</label><br>
+            <input
+              type="url"
+              id="productUrl"
+              v-model="newProduct.prodUrl"
+              required
+            />
+          </div>
+          <div class="quantity">
+            <label for="quantity">Quantity</label><br>
+            <input
+              type="number"
+              id="quantity"
+              v-model.number="newProduct.quantity"
+              required
+            />
+          </div>
+          <div class="amount">
+            <label for="amount">Amount</label><br>
+            <input
+              type="number"
+              id="amount"
+              v-model.number="newProduct.amount"
+              required
+            />
+          </div>
+          <div class="category">
+            <label for="category">Category</label><br>
+            <input
+              type="text"
+              id="category"
+              v-model="newProduct.category"
+              required
+            />
+          </div>
+
+          <button type="submit" class="submit">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      isModalOpen: false,
+      newProduct: {
+        prodName: "",
+        prodUrl: "",
+        quantity: 0,
+        amount: 0,
+        category: "",
+      },
+    };
+  },
+  methods: {
+    async addProduct() {
+      try {
+        const response = await axios.post(
+          "https://yokohamaapi.onrender.com/products",
+          this.newProduct
+        );
+        // Assuming the API returns the newly added product details
+        const addedProduct = response.data;
+
+        // Update your products list using the response or by refetching the product list
+        // For example: this.products.push(addedProduct);
+
+        this.newProduct = {
+          prodName: "",
+          prodUrl: "",
+          quantity: 0,
+          amount: 0,
+          category: "",
+        };
+
+        this.closeModal();
+      } catch (error) {
+        console.error("Error adding product:", error);
+      }
+    },
+    openModal() {
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+  },
+};
 </script>
-<style>
-input[type="checkbox"] {
-	display:none;
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Monoton&display=swap");
+
+.add-button {
+  width: 5rem;
+  background-color: black;
+  color: white;
+  height: 3rem;
+  font-family: "Julius Sans One", sans-serif;
+  margin-top: 1rem;
+  margin-right: 50rem;
 }
-input[type="checkbox"]:checked ~ .modal,
-input[type="checkbox"]:checked ~ .modal-background {
-	display: block;
+
+.add-button:hover {
+    transition: 0.5s;
+    background-color: white ;
+    box-shadow: 0 0 10px white;
+    color: black;
 }
-.modal-background {
-	width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: none;
-    z-index: 9998;
+
+h2 {
+    font-family: "Julius Sans One", sans-serif;
+
 }
+
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    display: none;	
-    width: 300px;
-    height: 300px;
-    background-color: #fff;
-    box-sizing: border-box;
-    z-index: 9999;
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
 }
-.modal > p {
-	padding: 15px;
-    margin: 0;
+
+.modal-content {
+  background-color: black;
+  color: white;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height: 30rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
-.modal-header {
-	background-color: #f9f9f9;
-    border-bottom: 1px solid #dddddd;
-    box-sizing: border-box;
-    height: 50px;
+
+.name {
+    margin: 1rem;
 }
-.modal-header h3 {
-	margin: 0;
-    box-sizing: border-box;
-    padding-left: 15px;
-    line-height: 50px;
-    color: #4d4d4d;
-    font-size: 16px;
-    display: inline-block;
+
+.quantity {
+    margin: 1rem;
 }
-.modal-header label {
-	box-sizing: border-box;
-    border-left: 1px solid #dddddd;
-    float: right;
-    line-height: 50px;
-    padding: 0 15px 0 15px;
-    cursor: pointer;
+
+.product-url {
+    margin: 1rem;
 }
-.modal-header label:hover img {
-	opacity: 0.6;
+
+.amount {
+    margin: 1rem;
+}
+
+.category {
+    margin: 1rem;
+}
+
+
+.close-button {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-open {
+  display: block;
+}
+
+input {
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid white;
+    height: 2rem;
+    color: white;
+}
+
+.submit {
+    background-color: black ;
+    color: white;
+    font-family: "Julius Sans One", sans-serif;
+    width: 5rem;
+    height: 3rem;
+
+}
+
+.submit:hover {
+    transition: 0.5s;
+    background-color: white ;
+    box-shadow: 0 0 10px white;
+    color: black;
+
 }
 </style>

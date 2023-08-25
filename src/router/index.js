@@ -26,9 +26,9 @@ const routes = [
     component: () => import('../views/Contact-View.vue')
   },
   {
-    path: '/single-view',
+    path: '/single-view/:id',
     name: 'single-product',
-    component: () => import('../views/Single-View.vue')
+    component: () => import('../views/single-view.vue'),
   },
   {
     path: '/admin',
